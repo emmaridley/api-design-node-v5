@@ -1,4 +1,7 @@
 import express from 'express';
+import authRoutes from './routes/authRoutes.ts';
+import userRoutes from './routes/userRoutes.ts';
+import habitRoutes from './routes/habitRoutes.ts';
 
 // Create Express application
 const app = express()
@@ -11,6 +14,15 @@ app.get('/health', (req, res) => {
     service: 'Habit Tracker API',
   })
 })
+
+// app.use() is used to register middleware in an Express app.
+// Middleware are functions that run before the route handler, 
+// and can modify req, res, or end the request.
+
+// Mount routers with base paths
+app.use('/api/auth', authRoutes)
+app.use('/api/users', userRoutes)
+app.use('/api/habits', habitRoutes)
 
 // Export the app for use in other modules (like tests)
 export { app }
