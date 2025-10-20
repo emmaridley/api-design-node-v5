@@ -1,7 +1,8 @@
 import {
     pgTable, uuid, varchar, text, timestamp, boolean, integer,
 } from 'drizzle-orm/pg-core';
-
+import { createInsertSchema, createSelectSchema} from 'drizzle-zod'
+ 
 import {relations} from 'drizzle-orm';
 
 export const users = pgTable('users', {
@@ -92,3 +93,20 @@ export const habitTagRelations = relations(habitTags, ({one}) => ({
     }),
 }))
 
+export type User = typeof users.$inferSelect    
+export type Habit = typeof habits.$inferSelect
+export type Entry = typeof entries.$inferSelect
+export type Tag = typeof tags.$inferSelect
+export type HabitTag = typeof habitTags.$inferSelect
+
+// Auto-generate Zod schemas from Drizzle tables
+export const insertUserSchema = createInsertSchema(users)
+export const selectUserSchema = createSelectSchema(users)
+export const insertHabitSchema = createInsertSchema(habits)
+export const selectHabitSchema = createSelectSchema(habits)
+export const insertEntrySchema = createInsertSchema(entries)
+export const selectEntrySchema = createSelectSchema(entries)
+export const insertTagSchema = createInsertSchema(tags)
+export const selectTagSchema = createSelectSchema(tags)
+export const insertHabitTagSchema = createInsertSchema(habitTags)
+export const selectHabitTagSchema = createSelectSchema(habitTags)       
